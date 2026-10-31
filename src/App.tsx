@@ -29,8 +29,13 @@ export default function App() {
     };
   }, []);
 
-  // Si la ruta es /menu o /menu/, renderizar la página exclusiva del menú
-  if (currentPath === '/menu' || currentPath === '/menu/') {
+  // Normalización de ruta para permitir /menu, /menu/, /menu.html, /Menu, etc.
+  const normalizedPath = currentPath.toLowerCase().replace(/\/+$/, '') || '/';
+  const isMenu = normalizedPath === '/menu' || normalizedPath === '/menu/index.html' || normalizedPath === '/menu.html';
+  const isConsulta = normalizedPath === '/consulta' || normalizedPath === '/consulta/index.html' || normalizedPath === '/consulta.html';
+
+  // Si la ruta es /menu, renderizar la página exclusiva del menú
+  if (isMenu) {
     return (
       <div className="safe-area-pt safe-area-pb">
         <MenuPage />
@@ -41,8 +46,8 @@ export default function App() {
     );
   }
 
-  // Si la ruta es /consulta o /consulta/, renderizar la página de búsqueda de reservaciones
-  if (currentPath === '/consulta' || currentPath === '/consulta/') {
+  // Si la ruta es /consulta, renderizar la página de búsqueda de reservaciones
+  if (isConsulta) {
     return (
       <div className="safe-area-pt safe-area-pb">
         <ReservationLookupPage />
